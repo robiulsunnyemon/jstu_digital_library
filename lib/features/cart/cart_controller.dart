@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:citybookstore/core/services/api_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:citybookstore/models/book_model.dart';
 import 'package:citybookstore/models/custom_book_model.dart';
@@ -56,35 +57,8 @@ class CartController extends GetxController {
 
   //order
 
-
-
-  static Future<void> orderRequest() async {
-    final url = Uri.parse("http://your-api-url.com/api/orders/"); // 🛠️ এই URL ঠিক করো
-
-    final headers = {
-      'Content-Type': 'application/json',
-    };
-
-    final body = jsonEncode({
-      "customer_name": "Guest", // চাইলে ইউজারের নাম পাঠাতে পারো
-      "items": cartBookList.map((book) => book.toJson()).toList(),
-    });
-
-    try {
-      final response = await http.post(url, headers: headers, body: body);
-
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        print("✅ Order Successful!");
-        Get.snackbar("Order", "Order placed successfully");
-        cartBookList.clear(); // cart খালি করা
-      } else {
-        print("❌ Order Failed: ${response.body}");
-        Get.snackbar("Order Failed", "Something went wrong");
-      }
-    } catch (e) {
-      print("🔥 Exception: $e");
-      Get.snackbar("Error", "Unable to send order");
-    }
+  checkoutOrder({required int studentId}){
+    ApiService.postOrder(cartBookList, studentId);
   }
 
 

@@ -40,16 +40,18 @@ class CustomBooksModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
+      "book_id": id,  // ✅ make sure DRF expects this key!
       "counter": counter.value,
       "writer": writer,
       "available": available,
       "description": description,
       "fee": fee,
-      "counterPrice": counterPrice.value,
+      "counter_price": counterPrice.value,
       "name": name,
     };
   }
+
+
 
 
 }

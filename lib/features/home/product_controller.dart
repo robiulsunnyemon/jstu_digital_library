@@ -37,7 +37,4 @@ class BookController extends GetxController {
 
 
 
-
-
-
 }
