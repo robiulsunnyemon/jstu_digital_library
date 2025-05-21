@@ -337,6 +337,8 @@ class CartBookState extends State<CartBookPage> {
                             title: "successfully checkout Complete",
                           );
                           cartController.checkoutOrder(studentId: 21);
+                          orderController.orderBooks(CartController.cartBookList);
+                          CartController.cartBookList.clear();
                         },
                       )
                     ],

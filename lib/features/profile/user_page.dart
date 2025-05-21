@@ -1,13 +1,19 @@
 import 'package:citybookstore/core/constants/colors.dart';
+import 'package:citybookstore/core/services/shered_preference_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/theme/theme_controller.dart';
 
-class UserProfileScreen extends StatelessWidget {
+class UserProfileScreen extends StatefulWidget {
   UserProfileScreen({super.key});
 
+  @override
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
+}
+
+class _UserProfileScreenState extends State<UserProfileScreen> {
   final Map<String, String> user = {
     'name': 'Robiul Sunny Emon',
     'email': 'robiulsunyemon@gmail.com',
@@ -18,6 +24,22 @@ class UserProfileScreen extends StatelessWidget {
 
   final themeController = Get.find<ThemeController>();
 
+  String? username;
+  String? email;
+
+  @override
+  void initState() {
+    super.initState();
+    loadUsername();
+  }
+
+  Future<void> loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('userName') ?? 'Guest';
+      email = prefs.getString('userEmail') ?? 'Guest';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +72,7 @@ class UserProfileScreen extends StatelessWidget {
                 children: [
                   // Name
                   Text(
-                    user['name']!,
+                    username?? "NULL",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -60,7 +82,7 @@ class UserProfileScreen extends StatelessWidget {
                   SizedBox(height: 20),
 
                   // Email
-                  _buildInfoCard(Icons.email, user['email']!),
+                  _buildInfoCard(Icons.email, email ??"robiulsunnyemon@gmail.com"),
                   SizedBox(height: 10),
 
                   // Phone
@@ -99,7 +121,7 @@ class UserProfileScreen extends StatelessWidget {
                 children: [
                   // Name
                   Text(
-                    user['name']!,
+                    username ??"Robiul Sunny",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -109,7 +131,7 @@ class UserProfileScreen extends StatelessWidget {
                   SizedBox(height: 20),
 
                   // Email
-                  _buildInfoCard(Icons.email, user['email']!),
+                  _buildInfoCard(Icons.email, email ?? "robiulsunnyemon@gmail.com"),
                   SizedBox(height: 10),
 
                   // Phone

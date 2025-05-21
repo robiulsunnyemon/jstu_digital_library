@@ -122,7 +122,7 @@ class HomePage extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
-                        width: 180, child: CardWidget(B: B, index: index)),
+                        width: 180, child: CardWidget(B: B, index: index,image: popularImage,)),
                   );
                 },
               ),
@@ -141,14 +141,13 @@ class HomePage extends StatelessWidget {
               height: 280,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: controller.bList.length,
+                itemCount: controller.popularBookList.length,
                 itemBuilder: (context, index) {
-                  Books B = controller.bList[index];
-                  int i = controller.bList.length - index;
+                  Books B = controller.popularBookList[index];
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child:
-                        SizedBox(width: 170, child: CardWidget(B: B, index: i)),
+                        SizedBox(width: 170, child: CardWidget(B: B, index: index,image: image,)),
                   );
                 },
               ),

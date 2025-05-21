@@ -39,7 +39,7 @@ class WishListCardWidget extends StatelessWidget {
                           onTap: (){
                             wishListController.addOrRemoveWishlistItem(books: B,id: B.id);
                           },
-                          child: wishListController.wishListFlag.contains(B.id)
+                          child: wishListController.wishListBook.contains(B)
                               ? Icon(
                             Icons.favorite_outlined,
                             color: AppColors.primaryColor,

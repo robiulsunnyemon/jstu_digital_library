@@ -4,6 +4,7 @@ import 'package:citybookstore/features/wishlist/wishlist_controller.dart';
 import 'package:citybookstore/models/book_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import '../../core/constants/url.dart';
 
 class WishListPage extends StatelessWidget {
@@ -29,37 +30,61 @@ class WishListPage extends StatelessWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 7, left: 7, right: 2, bottom: 5),
-            child: Text(
-              "All Wishlist Books",
-              style: TextStyle(
-                  color: AppColors.grayColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          Expanded(
-            child: Obx(
-              () => GridView.builder(
-                itemCount: wishListController.wishListBook.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, mainAxisExtent: 300),
-                itemBuilder: (context, index) {
-                  Books B = wishListController.wishListBook[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: WishListCardWidget(B: B, index: index),
-                  );
-                },
-              ),
-            ),
-          )
-        ],
+      body: Obx(
+            () {
+          if (wishListController.wishListBook.isEmpty) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset("assets/img/itemCart.json",
+                        width: 200, height: 200),
+                  ],
+                ),
+                Text(
+                  "Wishlist Book  unavailable",
+                ),
+              ],
+            );
+          } else {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 7, left: 7, right: 2, bottom: 5),
+                  child: Text(
+                    "All Wishlist Books",
+                    style: TextStyle(
+                        color: AppColors.grayColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  child: Obx(
+                        () => GridView.builder(
+                      itemCount: wishListController.wishListBook.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, mainAxisExtent: 300),
+                      itemBuilder: (context, index) {
+                        Books B = wishListController.wishListBook[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: WishListCardWidget(B: B, index: index),
+                        );
+                      },
+                    ),
+                  ),
+                )
+              ],
+            );
+          }
+        },
       ),
+
     );
   }
 }

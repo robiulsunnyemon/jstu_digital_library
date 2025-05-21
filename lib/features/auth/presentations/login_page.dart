@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/url.dart';
+import '../../../core/services/api_service.dart';
 import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_snackbar.dart';
 import '../../../core/widgets/custom_text_button.dart';
 import '../../../routes/routes_name.dart';
 
@@ -17,7 +19,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   void login() {
@@ -107,9 +109,20 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     child: CustomButton(
                       text: "Log In",
-                      onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, RoutesName.bottomNavigationBar, (route) => false);
+                      onTap: () async{
+                        Map<dynamic,dynamic> body={
+                          "username": userNameController.text.trim(),
+                          "password": passwordController.text.trim()
+                        };
+                        bool response=await ApiService.loginUser(body);
+                        if(response){
+                          customSnackBar(title: "successfully login");
+                          if(context.mounted){
+                            Navigator.pushReplacementNamed(context, RoutesName.bottomNavigationBar);
+                          }
+                        }else{
+                          customSnackBar(title: "Please Enter Valid Credentials");
+                        }
                       },
                     ),
                   ),
@@ -191,16 +204,16 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget buildEmailTextFormField() {
     return TextFormField(
-      controller: emailController,
+      controller: userNameController,
       decoration: InputDecoration(
-          hintText: 'Email',
+          hintText: 'Username',
           border: const OutlineInputBorder(),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color: AppColors.primaryColor,
             ),
           ),
-          prefixIcon: const Icon(Icons.email_outlined)),
+          prefixIcon: const Icon(Icons.person)),
       validator: (value) => value!.isEmpty ? 'Enter your email' : null,
     );
   }

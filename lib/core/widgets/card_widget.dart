@@ -1,12 +1,10 @@
 import 'package:citybookstore/features/book_details/product_detail_page.dart';
 import 'package:citybookstore/features/cart/cart_controller.dart';
-import 'package:citybookstore/features/wishlist/wish_list_product_page.dart';
 import 'package:citybookstore/features/wishlist/wishlist_controller.dart';
 import 'package:citybookstore/models/book_model.dart';
 import 'package:citybookstore/models/custom_book_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import '../../features/book_details/product_details_controller.dart';
 import '../constants/colors.dart';
 import '../constants/url.dart';
@@ -14,7 +12,8 @@ import '../constants/url.dart';
 class CardWidget extends StatelessWidget {
   final Books B;
   final int index;
-  CardWidget({super.key, required this.B, required this.index});
+  final List image;
+  CardWidget({super.key, required this.B, required this.index, required this.image});
 
   final productDetailsController = Get.find<ProductDetailsController>();
   final wishListController = Get.find<WishListController>();
@@ -46,7 +45,7 @@ class CardWidget extends StatelessWidget {
                         //add favourite book
                         wishListController.addOrRemoveWishlistItem(books: B,id: B.id);
                       },
-                      child: wishListController.wishListFlag.contains(B.id)
+                      child: wishListController.wishListBook.contains(B)
                           ? Icon(
                               Icons.favorite_outlined,
                               color: AppColors.primaryColor,

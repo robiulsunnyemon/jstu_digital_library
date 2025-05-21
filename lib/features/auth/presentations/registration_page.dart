@@ -1,3 +1,4 @@
+import 'package:citybookstore/core/services/api_service.dart';
 import 'package:citybookstore/features/auth/presentations/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +9,9 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/constants/url.dart';
 import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_snackbar.dart';
 import '../../../core/widgets/custom_text_button.dart';
+import '../../../routes/routes.dart';
 import '../../../routes/routes_name.dart';
 
 
@@ -87,7 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextFormField(
                     controller: nameController,
                     decoration: InputDecoration(
-                        hintText: 'Full Name',
+                        hintText: 'Username',
                         border: const OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -125,7 +128,22 @@ class _RegisterPageState extends State<RegisterPage> {
                     width: double.infinity,
                     child: CustomButton(
                       text: "Sign Up",
-                      onTap: () {},
+                      onTap: () async{
+                        Map<dynamic,dynamic> body={
+                          "username": nameController.text.trim(),
+                          "email": emailController.text.trim(),
+                          "password": passwordController.text.trim()
+                        };
+                        bool response=await ApiService.registrationUser(body);
+                        if(response){
+                          customSnackBar(title: "Account created successfully");
+                          if(context.mounted){
+                            Navigator.pushReplacementNamed(context, RoutesName.loginPage);
+                          }
+                        }else{
+                          customSnackBar(title: "Account created fail");
+                        }
+                      },
                     ),
                   ),
                   SizedBox(

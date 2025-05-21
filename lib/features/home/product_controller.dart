@@ -6,6 +6,7 @@ import '../../models/book_model.dart';
 
 class BookController extends GetxController {
   var bList = <Books>[].obs;
+  var popularBookList = <Books>[].obs;
   var isLoading = false.obs;
 
 
@@ -25,6 +26,7 @@ class BookController extends GetxController {
   @override
   void onInit() {
     getBook();
+    getPopularBook();
     super.onInit();
   }
 
@@ -32,6 +34,13 @@ class BookController extends GetxController {
   void getBook() async {
     isLoading(true);
     bList.value=await ApiService.getBook();
+    isLoading(false);
+  }
+
+
+  void getPopularBook() async {
+    isLoading(true);
+    popularBookList.value=await ApiService.getPopularBook();
     isLoading(false);
   }
 

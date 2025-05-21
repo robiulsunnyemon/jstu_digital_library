@@ -7,7 +7,7 @@ class WishListController extends GetxController{
   var wishListFlag=<int>[].obs;
 
 
-  addOrRemoveWishlistItem({required Books books, required int id}){
+ addOrRemoveWishlistItem({required Books books, required int id}){
     if (wishListFlag.contains(id)) {
       wishListBook.remove(books);
       wishListFlag.remove(id);
